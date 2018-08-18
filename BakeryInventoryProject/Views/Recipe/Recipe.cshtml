@@ -1,0 +1,72 @@
+﻿@{
+    ViewBag.Title = "Recipe";
+}
+
+<h3><a href="@Url.Action("Ingredient", "Ingredient")">VIEW YOUR INGREDIENT PANTRY</a></h3>
+<br />
+<h2>My Recipe Box: </h2>
+<br />
+<form action="Recipe/InsertRecipe" method="post">
+    <table>
+        <tr>
+            <th>RECIPE NAME</th>
+            <th>RECIPE YIELD</th>
+            <th>RECIPE TYPE</th>
+        </tr>
+        <tr>
+            <td>
+                <input type="text" name="RecipeNameInput" placeholder="Recipe Name..." />
+            </td>
+            <td>
+                <h8>MUST BE WHOLE NUMBER**</h8>
+                <input type="text" name="YieldInput" placeholder="Yield (Whole Interger)..."
+            </td>
+            <td>
+                <select name="RecipeTypeIdInput">
+                    <option>Select Recipe Type...</option>
+                    @foreach (var rt in @ViewBag.RecipeTypes) {
+                        <option value="@rt.RecipeTypeId">@rt.Name</option>
+                    }
+                </select>
+            </td>
+        </tr>
+        <tr></tr>
+        <tr>
+            <td></td>
+            <td>
+                <h6>SUBMIT RECIPE!</h6>
+                <input type="submit" value="Add to Recipe Box!" />
+            </td>
+            <td></td>
+        </tr>
+    </table>
+</form>
+<br />
+<br />
+<table>
+    @foreach (var rt in ViewBag.RecipeTypes) {
+        <tr>
+            <th><a href="@Url.Action("ViewRecipesInRecipeTypes", "Recipe", new { RecipeTypeIdInput = @rt.RecipeTypeId })">@rt.Name</a></th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+        @*have another link here to view all the recipes for a certain recipe type*@
+    foreach (var rec in @ViewBag.RecipeDetails) {
+        if (@rec.RecipeTypeId == @rt.RecipeTypeId) {
+            <tr class="tableRowsCentered">
+                @*                    <td>@rec.RecipeTypeName</td>*@
+                <td>@rec.RecipeName</td>
+                <td>...   ...   ...</td>
+                @if (@rec.Yield > 0) {
+                    <td>Serves @rec.Yield</td>
+                } else {
+                    <td>No yield assigned</td>}
+                <td>
+                    <a href="@Url.Action("RecipeIngredients", "Recipe", new { RecipeIdInput = @rec.RecipeId })">VIEW RECIPE</a>
+                </td>
+            </tr>
+            }
+        }
+    }
+</table>

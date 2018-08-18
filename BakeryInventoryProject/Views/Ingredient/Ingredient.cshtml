@@ -1,0 +1,121 @@
+﻿<script type='text/javascript' src='knockout-3.4.2.js'></script>
+
+@{
+    var i = 1;
+}
+@{
+    ViewBag.Title = "Ingredient";
+}
+<h2>Add new Ingredient to My Pantry:</h2>
+@*@using (Html.BeginForm("InsertIngredient", "Ingredient", FormMethod.Post)) {*@
+<form action="InsertIngredient" method="post">
+    <table>
+        <tr>
+            @*first row, header*@
+            <th>CHOOSE A RECIPE:</th>
+            <th>INGREDIENT NAME AND TYPE: </th>
+            <th>MEASUREMENT INFO: </th>
+            <th>SELLING WEIGHT INFO: </th>
+        </tr>
+        <tr>
+            @*second row*@
+            <td>
+                @*<h6>CHOOSE A RECIPE:  </h6>*@
+                <select name="RecipeIdInput">
+                    <option>Select recipe...</option>
+                    @foreach (var rec in @ViewBag.AllRecipes) {
+                        <option value="@rec.RecipeId">@rec.Name</option>
+                    }
+                </select>
+            </td>
+            <td>
+                @*                <h6>Igredient Name:  </h6>*@
+                <input type="text" name="NameInput" placeholder="Ingredient Name..." />
+
+            </td>
+            <td>
+                @*         <h6>Measurement Value:  </h6>*@
+                <input type="text" name="MeasurementValueInput" placeholder="Measurement Value..." />
+            </td>
+            <td>
+                @*                <h6>Weight Value:  </h6>*@
+                <input type="text" name="WeightValueInput" placeholder="Weight Value..." />
+            </td>
+        </tr>
+        <tr>
+            @*third row*@
+            <td>
+                <br />
+                <h6>SUBMIT INGREDIENT!  </h6>
+                <input type="submit" value="Add to Pantry!" />
+            </td>
+            <td>
+                <br />
+                <br />
+                <h6>Ingredient Type:  </h6>
+                <select name="IngredientTypeIdInput">
+                    <option>Select Ingredient Type...</option>
+                    @foreach (var type in @ViewBag.AllIngredientTypes) {
+                        <option value="@type.IngredientTypeId">@type.TypeName</option>
+                    }
+                </select>
+            </td>
+            <td>
+                <br />
+                <br />
+                <h6>Measurement Type:  </h6>
+                <select name="MeasurementTypeIdInput">
+                    <option>Select Measurement Type...</option>
+                    @foreach (var mt in @ViewBag.AllMeasurementTypes) {
+                        <option value="@mt.MeasurementTypeId">@mt.Name</option>
+                    }
+                </select>
+            </td>
+            <td>
+                <br />
+                <br />
+                <h6>Weight Type:  </h6>
+                <select name="WeightIdInput">
+                    <option>Select Weight...</option>
+                    @foreach (var w in @ViewBag.AllWeights) {
+                        <option value="@w.WeightId">@w.Name</option>
+                    }
+                </select>
+            </td>
+        </tr>
+    </table>
+</form>
+<br />
+<br />
+<table>
+    <br />
+    <h2>All Ingredients in your pantry:</h2>
+    <br />
+    <tr>
+        <th></th>
+        <th>Brand</th>
+        <th>Ingredient Name</th>
+        <th>Recipe Name</th>
+        <th>Recipe Type</th>
+        <th>Measurement</th>
+        <th>Ingredient Type</th>
+        <th>Selling Price</th>
+        <th>Selling Weight</th>
+    </tr>
+
+    @foreach (var ing in @ViewBag.AllIngredientDetails) {
+        <tr>
+           <td><a href="@Url.Action("IngredientDetails", "Ingredient", new { IngredientIdInput = @ing.IngredientId })">VIEW</a></td> 
+            <td>@i</td>
+            <td>@ing.BrandName</td>
+            <td>@ing.IngredientName</td>
+            <td>@ing.RecipeName</td>
+            <td>@ing.RecipeType</td>
+            <td>@ing.Measurement`</td>
+            <td>@ing.IngredientTypeName</td>
+            <td>$ @ing.SellingPrice</td>
+            <td>@ing.SellingWeight</td>
+        </tr>
+        i++;
+    }
+</table>

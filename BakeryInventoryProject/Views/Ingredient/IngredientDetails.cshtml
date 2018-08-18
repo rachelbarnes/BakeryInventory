@@ -1,0 +1,22 @@
+﻿@{
+    ViewBag.Title = "IngredientDetails";
+}
+
+
+
+<p>Ingredient name: <strong data-bind="text: ingredientName"></strong></p>
+<p>Recipe name: <strong data-bind="text: recipeName"></strong></p>
+
+
+<h2>Ingredient Details: </h2>
+<br />
+
+<h6>INGREDIENT NAME: @ViewBag.ingDetails.IngredientName</h6>
+<h6>RECIPE NAME: @ViewBag.ingDetails.RecipeName</h6>
+<h6>RECIPE TYPE: @ViewBag.ingDetails.RecipeType</h6>
+<h6>MEASUREMENT: @ViewBag.ingDetails.Measurement</h6>
+<h6>INGREDIENT TYPE: @ViewBag.ingDetails.IngredientTypeName</h6>
+
+
+    <script type='text/javascript' src='knockout-3.4.2.js'></script>
+    <script type='text/javascript' src='jquery-1.10.2.min.js'></script>

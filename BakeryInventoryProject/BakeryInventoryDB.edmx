@@ -1,0 +1,572 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="BakeryInventoryModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Brand">
+          <Key>
+            <PropertyRef Name="BrandId" />
+          </Key>
+          <Property Name="BrandId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Ingredient">
+          <Key>
+            <PropertyRef Name="IngredientId" />
+          </Key>
+          <Property Name="IngredientId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="RecipeId" Type="int" Nullable="false" />
+          <Property Name="IngredientTypeId" Type="int" Nullable="false" />
+          <Property Name="MeasurementValue" Type="decimal" Precision="20" Scale="2" />
+          <Property Name="MeasurementTypeId" Type="int" Nullable="false" />
+          <Property Name="WeightValue" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="WeightId" Type="int" />
+          <Property Name="SellingPrice" Type="decimal" Precision="20" Scale="2" />
+          <Property Name="BrandId" Type="int" />
+        </EntityType>
+        <EntityType Name="IngredientType">
+          <Key>
+            <PropertyRef Name="IngredientTypeId" />
+          </Key>
+          <Property Name="IngredientTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TypeName" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="MeasurementType">
+          <Key>
+            <PropertyRef Name="MeasurementTypeId" />
+          </Key>
+          <Property Name="MeasurementTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="ShortName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Ounces" Type="decimal" Precision="20" Scale="2" />
+        </EntityType>
+        <EntityType Name="Recipe">
+          <Key>
+            <PropertyRef Name="RecipeId" />
+          </Key>
+          <Property Name="RecipeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="RecipeTypeId" Type="int" Nullable="false" />
+          <Property Name="Yield" Type="int" />
+        </EntityType>
+        <EntityType Name="RecipeType">
+          <Key>
+            <PropertyRef Name="RecipeTypeId" />
+          </Key>
+          <Property Name="RecipeTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Weight">
+          <Key>
+            <PropertyRef Name="WeightId" />
+          </Key>
+          <Property Name="WeightId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="ValueInOunces" Type="decimal" Precision="20" Scale="2" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'BakeryInventory.dbo.vw_IngredientDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_IngredientDetails">
+          <Key>
+            <PropertyRef Name="IngredientId" />
+            <PropertyRef Name="IngredientName" />
+            <PropertyRef Name="RecipeName" />
+            <PropertyRef Name="RecipeId" />
+          </Key>
+          <Property Name="IngredientId" Type="int" Nullable="false" />
+          <Property Name="IngredientName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="RecipeName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="RecipeType" Type="nvarchar" MaxLength="255" />
+          <Property Name="Measurement" Type="nvarchar" MaxLength="307" />
+          <Property Name="IngredientTypeName" Type="nvarchar" MaxLength="255" />
+          <Property Name="BrandName" Type="nvarchar" MaxLength="255" />
+          <Property Name="SellingWeight" Type="nvarchar" MaxLength="307" />
+          <Property Name="SellingPrice" Type="decimal" Precision="20" Scale="2" />
+          <Property Name="RecipeId" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'BakeryInventory.dbo.vw_RecipeDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vw_RecipeDetails">
+          <Key>
+            <PropertyRef Name="RecipeId" />
+            <PropertyRef Name="RecipeName" />
+            <PropertyRef Name="RecipeTypeId" />
+          </Key>
+          <Property Name="RecipeId" Type="int" Nullable="false" />
+          <Property Name="RecipeName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="RecipeTypeName" Type="nvarchar" MaxLength="255" />
+          <Property Name="RecipeTypeId" Type="int" Nullable="false" />
+          <Property Name="Yield" Type="int" />
+        </EntityType>
+        <Association Name="FK__Ingredien__Brand__33D4B598">
+          <End Role="Brand" Type="Self.Brand" Multiplicity="0..1" />
+          <End Role="Ingredient" Type="Self.Ingredient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Brand">
+              <PropertyRef Name="BrandId" />
+            </Principal>
+            <Dependent Role="Ingredient">
+              <PropertyRef Name="BrandId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Ingredien__Ingre__30F848ED">
+          <End Role="IngredientType" Type="Self.IngredientType" Multiplicity="1" />
+          <End Role="Ingredient" Type="Self.Ingredient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IngredientType">
+              <PropertyRef Name="IngredientTypeId" />
+            </Principal>
+            <Dependent Role="Ingredient">
+              <PropertyRef Name="IngredientTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Ingredien__Measu__31EC6D26">
+          <End Role="MeasurementType" Type="Self.MeasurementType" Multiplicity="1" />
+          <End Role="Ingredient" Type="Self.Ingredient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MeasurementType">
+              <PropertyRef Name="MeasurementTypeId" />
+            </Principal>
+            <Dependent Role="Ingredient">
+              <PropertyRef Name="MeasurementTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Ingredien__Recip__300424B4">
+          <End Role="Recipe" Type="Self.Recipe" Multiplicity="1" />
+          <End Role="Ingredient" Type="Self.Ingredient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Recipe">
+              <PropertyRef Name="RecipeId" />
+            </Principal>
+            <Dependent Role="Ingredient">
+              <PropertyRef Name="RecipeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Ingredien__Weigh__32E0915F">
+          <End Role="Weight" Type="Self.Weight" Multiplicity="0..1" />
+          <End Role="Ingredient" Type="Self.Ingredient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Weight">
+              <PropertyRef Name="WeightId" />
+            </Principal>
+            <Dependent Role="Ingredient">
+              <PropertyRef Name="WeightId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Recipe__RecipeTy__2B3F6F97">
+          <End Role="RecipeType" Type="Self.RecipeType" Multiplicity="1" />
+          <End Role="Recipe" Type="Self.Recipe" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RecipeType">
+              <PropertyRef Name="RecipeTypeId" />
+            </Principal>
+            <Dependent Role="Recipe">
+              <PropertyRef Name="RecipeTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BakeryInventoryModelStoreContainer">
+          <EntitySet Name="Brand" EntityType="Self.Brand" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ingredient" EntityType="Self.Ingredient" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="IngredientType" EntityType="Self.IngredientType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MeasurementType" EntityType="Self.MeasurementType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Recipe" EntityType="Self.Recipe" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RecipeType" EntityType="Self.RecipeType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Weight" EntityType="Self.Weight" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="vw_IngredientDetails" EntityType="Self.vw_IngredientDetails" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_IngredientDetails].[IngredientId] AS [IngredientId], 
+    [vw_IngredientDetails].[IngredientName] AS [IngredientName], 
+    [vw_IngredientDetails].[RecipeName] AS [RecipeName], 
+    [vw_IngredientDetails].[RecipeType] AS [RecipeType], 
+    [vw_IngredientDetails].[Measurement] AS [Measurement], 
+    [vw_IngredientDetails].[IngredientTypeName] AS [IngredientTypeName], 
+    [vw_IngredientDetails].[BrandName] AS [BrandName], 
+    [vw_IngredientDetails].[SellingWeight] AS [SellingWeight], 
+    [vw_IngredientDetails].[SellingPrice] AS [SellingPrice], 
+    [vw_IngredientDetails].[RecipeId] AS [RecipeId]
+    FROM [dbo].[vw_IngredientDetails] AS [vw_IngredientDetails]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vw_RecipeDetails" EntityType="Self.vw_RecipeDetails" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vw_RecipeDetails].[RecipeId] AS [RecipeId], 
+    [vw_RecipeDetails].[RecipeName] AS [RecipeName], 
+    [vw_RecipeDetails].[RecipeTypeName] AS [RecipeTypeName], 
+    [vw_RecipeDetails].[RecipeTypeId] AS [RecipeTypeId], 
+    [vw_RecipeDetails].[Yield] AS [Yield]
+    FROM [dbo].[vw_RecipeDetails] AS [vw_RecipeDetails]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK__Ingredien__Brand__33D4B598" Association="Self.FK__Ingredien__Brand__33D4B598">
+            <End Role="Brand" EntitySet="Brand" />
+            <End Role="Ingredient" EntitySet="Ingredient" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Ingredien__Ingre__30F848ED" Association="Self.FK__Ingredien__Ingre__30F848ED">
+            <End Role="IngredientType" EntitySet="IngredientType" />
+            <End Role="Ingredient" EntitySet="Ingredient" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Ingredien__Measu__31EC6D26" Association="Self.FK__Ingredien__Measu__31EC6D26">
+            <End Role="MeasurementType" EntitySet="MeasurementType" />
+            <End Role="Ingredient" EntitySet="Ingredient" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Ingredien__Recip__300424B4" Association="Self.FK__Ingredien__Recip__300424B4">
+            <End Role="Recipe" EntitySet="Recipe" />
+            <End Role="Ingredient" EntitySet="Ingredient" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Ingredien__Weigh__32E0915F" Association="Self.FK__Ingredien__Weigh__32E0915F">
+            <End Role="Weight" EntitySet="Weight" />
+            <End Role="Ingredient" EntitySet="Ingredient" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Recipe__RecipeTy__2B3F6F97" Association="Self.FK__Recipe__RecipeTy__2B3F6F97">
+            <End Role="RecipeType" EntitySet="RecipeType" />
+            <End Role="Recipe" EntitySet="Recipe" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BakeryInventoryModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Brand">
+          <Key>
+            <PropertyRef Name="BrandId" />
+          </Key>
+          <Property Name="BrandId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Ingredient" Relationship="BakeryInventoryModel.FK__Ingredien__Brand__33D4B598" FromRole="Brand" ToRole="Ingredient" />
+        </EntityType>
+        <EntityType Name="Ingredient">
+          <Key>
+            <PropertyRef Name="IngredientId" />
+          </Key>
+          <Property Name="IngredientId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RecipeId" Type="Int32" Nullable="false" />
+          <Property Name="IngredientTypeId" Type="Int32" Nullable="false" />
+          <Property Name="MeasurementValue" Type="Decimal" Precision="20" Scale="2" />
+          <Property Name="MeasurementTypeId" Type="Int32" Nullable="false" />
+          <Property Name="WeightValue" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="WeightId" Type="Int32" />
+          <Property Name="SellingPrice" Type="Decimal" Precision="20" Scale="2" />
+          <NavigationProperty Name="IngredientType" Relationship="Self.FK__Ingredien__Ingre__30F848ED" FromRole="Ingredient" ToRole="IngredientType" />
+          <NavigationProperty Name="MeasurementType" Relationship="Self.FK__Ingredien__Measu__31EC6D26" FromRole="Ingredient" ToRole="MeasurementType" />
+          <NavigationProperty Name="Recipe" Relationship="Self.FK__Ingredien__Recip__300424B4" FromRole="Ingredient" ToRole="Recipe" />
+          <NavigationProperty Name="Weight" Relationship="Self.FK__Ingredien__Weigh__32E0915F" FromRole="Ingredient" ToRole="Weight" />
+          <Property Name="BrandId" Type="Int32" />
+          <NavigationProperty Name="Brand" Relationship="BakeryInventoryModel.FK__Ingredien__Brand__33D4B598" FromRole="Ingredient" ToRole="Brand" />
+        </EntityType>
+        <EntityType Name="IngredientType">
+          <Key>
+            <PropertyRef Name="IngredientTypeId" />
+          </Key>
+          <Property Name="IngredientTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TypeName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Ingredient" Relationship="Self.FK__Ingredien__Ingre__30F848ED" FromRole="IngredientType" ToRole="Ingredient" />
+        </EntityType>
+        <EntityType Name="MeasurementType">
+          <Key>
+            <PropertyRef Name="MeasurementTypeId" />
+          </Key>
+          <Property Name="MeasurementTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ShortName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Ounces" Type="Decimal" Precision="20" Scale="2" />
+          <NavigationProperty Name="Ingredient" Relationship="Self.FK__Ingredien__Measu__31EC6D26" FromRole="MeasurementType" ToRole="Ingredient" />
+        </EntityType>
+        <EntityType Name="Recipe">
+          <Key>
+            <PropertyRef Name="RecipeId" />
+          </Key>
+          <Property Name="RecipeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RecipeTypeId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Ingredient" Relationship="Self.FK__Ingredien__Recip__300424B4" FromRole="Recipe" ToRole="Ingredient" />
+          <NavigationProperty Name="RecipeType" Relationship="Self.FK__Recipe__RecipeTy__2B3F6F97" FromRole="Recipe" ToRole="RecipeType" />
+          <Property Name="Yield" Type="Int32" />
+        </EntityType>
+        <EntityType Name="RecipeType">
+          <Key>
+            <PropertyRef Name="RecipeTypeId" />
+          </Key>
+          <Property Name="RecipeTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Recipe" Relationship="Self.FK__Recipe__RecipeTy__2B3F6F97" FromRole="RecipeType" ToRole="Recipe" />
+        </EntityType>
+        <EntityType Name="Weight">
+          <Key>
+            <PropertyRef Name="WeightId" />
+          </Key>
+          <Property Name="WeightId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ValueInOunces" Type="Decimal" Precision="20" Scale="2" />
+          <NavigationProperty Name="Ingredient" Relationship="Self.FK__Ingredien__Weigh__32E0915F" FromRole="Weight" ToRole="Ingredient" />
+        </EntityType>
+        <Association Name="FK__Ingredien__Ingre__30F848ED">
+          <End Role="IngredientType" Type="Self.IngredientType" Multiplicity="1" />
+          <End Role="Ingredient" Type="Self.Ingredient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IngredientType">
+              <PropertyRef Name="IngredientTypeId" />
+            </Principal>
+            <Dependent Role="Ingredient">
+              <PropertyRef Name="IngredientTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Ingredien__Measu__31EC6D26">
+          <End Role="MeasurementType" Type="Self.MeasurementType" Multiplicity="1" />
+          <End Role="Ingredient" Type="Self.Ingredient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MeasurementType">
+              <PropertyRef Name="MeasurementTypeId" />
+            </Principal>
+            <Dependent Role="Ingredient">
+              <PropertyRef Name="MeasurementTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Ingredien__Recip__300424B4">
+          <End Role="Recipe" Type="Self.Recipe" Multiplicity="1" />
+          <End Role="Ingredient" Type="Self.Ingredient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Recipe">
+              <PropertyRef Name="RecipeId" />
+            </Principal>
+            <Dependent Role="Ingredient">
+              <PropertyRef Name="RecipeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Ingredien__Weigh__32E0915F">
+          <End Role="Weight" Type="Self.Weight" Multiplicity="0..1" />
+          <End Role="Ingredient" Type="Self.Ingredient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Weight">
+              <PropertyRef Name="WeightId" />
+            </Principal>
+            <Dependent Role="Ingredient">
+              <PropertyRef Name="WeightId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Recipe__RecipeTy__2B3F6F97">
+          <End Role="RecipeType" Type="Self.RecipeType" Multiplicity="1" />
+          <End Role="Recipe" Type="Self.Recipe" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RecipeType">
+              <PropertyRef Name="RecipeTypeId" />
+            </Principal>
+            <Dependent Role="Recipe">
+              <PropertyRef Name="RecipeTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BakeryInventoryEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Brand" EntityType="Self.Brand" />
+          <EntitySet Name="Ingredient" EntityType="Self.Ingredient" />
+          <EntitySet Name="IngredientType" EntityType="Self.IngredientType" />
+          <EntitySet Name="MeasurementType" EntityType="Self.MeasurementType" />
+          <EntitySet Name="Recipe" EntityType="Self.Recipe" />
+          <EntitySet Name="RecipeType" EntityType="Self.RecipeType" />
+          <EntitySet Name="Weight" EntityType="Self.Weight" />
+          <AssociationSet Name="FK__Ingredien__Ingre__30F848ED" Association="Self.FK__Ingredien__Ingre__30F848ED">
+            <End Role="IngredientType" EntitySet="IngredientType" />
+            <End Role="Ingredient" EntitySet="Ingredient" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Ingredien__Measu__31EC6D26" Association="Self.FK__Ingredien__Measu__31EC6D26">
+            <End Role="MeasurementType" EntitySet="MeasurementType" />
+            <End Role="Ingredient" EntitySet="Ingredient" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Ingredien__Recip__300424B4" Association="Self.FK__Ingredien__Recip__300424B4">
+            <End Role="Recipe" EntitySet="Recipe" />
+            <End Role="Ingredient" EntitySet="Ingredient" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Ingredien__Weigh__32E0915F" Association="Self.FK__Ingredien__Weigh__32E0915F">
+            <End Role="Weight" EntitySet="Weight" />
+            <End Role="Ingredient" EntitySet="Ingredient" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Recipe__RecipeTy__2B3F6F97" Association="Self.FK__Recipe__RecipeTy__2B3F6F97">
+            <End Role="RecipeType" EntitySet="RecipeType" />
+            <End Role="Recipe" EntitySet="Recipe" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Ingredien__Brand__33D4B598" Association="BakeryInventoryModel.FK__Ingredien__Brand__33D4B598">
+            <End Role="Brand" EntitySet="Brand" />
+            <End Role="Ingredient" EntitySet="Ingredient" />
+          </AssociationSet>
+          <EntitySet Name="vw_IngredientDetails" EntityType="BakeryInventoryModel.vw_IngredientDetails" />
+          <EntitySet Name="vw_RecipeDetails" EntityType="BakeryInventoryModel.vw_RecipeDetails" />
+        </EntityContainer>
+        <Association Name="FK__Ingredien__Brand__33D4B598">
+          <End Type="BakeryInventoryModel.Brand" Role="Brand" Multiplicity="0..1" />
+          <End Type="BakeryInventoryModel.Ingredient" Role="Ingredient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Brand">
+              <PropertyRef Name="BrandId" />
+            </Principal>
+            <Dependent Role="Ingredient">
+              <PropertyRef Name="BrandId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="vw_IngredientDetails">
+          <Key>
+            <PropertyRef Name="IngredientId" />
+            <PropertyRef Name="IngredientName" />
+            <PropertyRef Name="RecipeName" />
+            <PropertyRef Name="RecipeId" />
+          </Key>
+          <Property Name="IngredientId" Type="Int32" Nullable="false" />
+          <Property Name="IngredientName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="RecipeName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="RecipeType" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Measurement" Type="String" MaxLength="307" FixedLength="false" Unicode="true" />
+          <Property Name="IngredientTypeName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="BrandName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="SellingWeight" Type="String" MaxLength="307" FixedLength="false" Unicode="true" />
+          <Property Name="SellingPrice" Type="Decimal" Precision="20" Scale="2" />
+          <Property Name="RecipeId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="vw_RecipeDetails">
+          <Key>
+            <PropertyRef Name="RecipeId" />
+            <PropertyRef Name="RecipeName" />
+            <PropertyRef Name="RecipeTypeId" />
+          </Key>
+          <Property Name="RecipeId" Type="Int32" Nullable="false" />
+          <Property Name="RecipeName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="RecipeTypeName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Yield" Type="Int32" />
+          <Property Name="RecipeTypeId" Type="Int32" Nullable="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BakeryInventoryModelStoreContainer" CdmEntityContainer="BakeryInventoryEntities">
+          <EntitySetMapping Name="Brand">
+            <EntityTypeMapping TypeName="BakeryInventoryModel.Brand">
+              <MappingFragment StoreEntitySet="Brand">
+                <ScalarProperty Name="BrandId" ColumnName="BrandId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ingredient">
+            <EntityTypeMapping TypeName="BakeryInventoryModel.Ingredient">
+              <MappingFragment StoreEntitySet="Ingredient">
+                <ScalarProperty Name="BrandId" ColumnName="BrandId" />
+                <ScalarProperty Name="IngredientId" ColumnName="IngredientId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="RecipeId" ColumnName="RecipeId" />
+                <ScalarProperty Name="IngredientTypeId" ColumnName="IngredientTypeId" />
+                <ScalarProperty Name="MeasurementValue" ColumnName="MeasurementValue" />
+                <ScalarProperty Name="MeasurementTypeId" ColumnName="MeasurementTypeId" />
+                <ScalarProperty Name="WeightValue" ColumnName="WeightValue" />
+                <ScalarProperty Name="WeightId" ColumnName="WeightId" />
+                <ScalarProperty Name="SellingPrice" ColumnName="SellingPrice" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IngredientType">
+            <EntityTypeMapping TypeName="BakeryInventoryModel.IngredientType">
+              <MappingFragment StoreEntitySet="IngredientType">
+                <ScalarProperty Name="IngredientTypeId" ColumnName="IngredientTypeId" />
+                <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MeasurementType">
+            <EntityTypeMapping TypeName="BakeryInventoryModel.MeasurementType">
+              <MappingFragment StoreEntitySet="MeasurementType">
+                <ScalarProperty Name="MeasurementTypeId" ColumnName="MeasurementTypeId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ShortName" ColumnName="ShortName" />
+                <ScalarProperty Name="Ounces" ColumnName="Ounces" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Recipe">
+            <EntityTypeMapping TypeName="BakeryInventoryModel.Recipe">
+              <MappingFragment StoreEntitySet="Recipe">
+                <ScalarProperty Name="Yield" ColumnName="Yield" />
+                <ScalarProperty Name="RecipeId" ColumnName="RecipeId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="RecipeTypeId" ColumnName="RecipeTypeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RecipeType">
+            <EntityTypeMapping TypeName="BakeryInventoryModel.RecipeType">
+              <MappingFragment StoreEntitySet="RecipeType">
+                <ScalarProperty Name="RecipeTypeId" ColumnName="RecipeTypeId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Weight">
+            <EntityTypeMapping TypeName="BakeryInventoryModel.Weight">
+              <MappingFragment StoreEntitySet="Weight">
+                <ScalarProperty Name="WeightId" ColumnName="WeightId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ValueInOunces" ColumnName="ValueInOunces" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_IngredientDetails">
+            <EntityTypeMapping TypeName="BakeryInventoryModel.vw_IngredientDetails">
+              <MappingFragment StoreEntitySet="vw_IngredientDetails">
+                <ScalarProperty Name="RecipeId" ColumnName="RecipeId" />
+                <ScalarProperty Name="SellingPrice" ColumnName="SellingPrice" />
+                <ScalarProperty Name="SellingWeight" ColumnName="SellingWeight" />
+                <ScalarProperty Name="BrandName" ColumnName="BrandName" />
+                <ScalarProperty Name="IngredientTypeName" ColumnName="IngredientTypeName" />
+                <ScalarProperty Name="Measurement" ColumnName="Measurement" />
+                <ScalarProperty Name="RecipeType" ColumnName="RecipeType" />
+                <ScalarProperty Name="RecipeName" ColumnName="RecipeName" />
+                <ScalarProperty Name="IngredientName" ColumnName="IngredientName" />
+                <ScalarProperty Name="IngredientId" ColumnName="IngredientId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vw_RecipeDetails">
+            <EntityTypeMapping TypeName="BakeryInventoryModel.vw_RecipeDetails">
+              <MappingFragment StoreEntitySet="vw_RecipeDetails">
+                <ScalarProperty Name="RecipeTypeId" ColumnName="RecipeTypeId" />
+                <ScalarProperty Name="Yield" ColumnName="Yield" />
+                <ScalarProperty Name="RecipeTypeName" ColumnName="RecipeTypeName" />
+                <ScalarProperty Name="RecipeName" ColumnName="RecipeName" />
+                <ScalarProperty Name="RecipeId" ColumnName="RecipeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

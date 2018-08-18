@@ -1,0 +1,20 @@
+﻿
+@{
+    ViewBag.Title = "RecipesInRecipeTypes";
+}
+
+<h2>List of all @ViewBag.RecipeType.Name Recipes in your Box</h2>
+<br />
+<br />
+<table>
+    <tr>
+        <th>RECIPE NAME</th>
+        <th>RECIPE YIELD</th>
+    </tr>
+    @foreach (var rec in @ViewBag.RecipeTypeRecipes) {
+        <tr>
+            <td>@rec.Name</td>
+            <td>Serves @rec.Yield</td>
+        </tr>
+    }
+</table>

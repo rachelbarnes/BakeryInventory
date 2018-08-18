@@ -1,0 +1,19 @@
+﻿create view vw_IngredientDetails as 
+select i.IngredientId as [IngredientId], 
+		i.Name as [IngredientName], 
+		r.Name as [RecipeName], 
+		rt.Name as [RecipeType], 
+		case when (i.MeasurementValue = 1) then (convert(nvarchar(50),i.MeasurementValue) + ' ' + mt.Name)
+			 else (convert(nvarchar(50), i.MeasurementValue) + ' ' + mt.Name + 's') end as [Measurement], 
+		it.TypeName as [IngredientTypeName], 
+		b.Name as [BrandName], 
+		case when (i.WeightValue = 1) then (convert(nvarchar(50),i.WeightValue) + ' ' + w.Name)
+			 else (convert(nvarchar(50), i.WeightValue) + ' ' + w.Name + 's') end as [SellingWeight], 
+		i.SellingPrice
+from Ingredient i
+join Recipe r on r.RecipeId = i.RecipeId
+left join RecipeType rt on rt.RecipeTypeId = r.RecipeTypeId
+left join MeasurementType mt on mt.MeasurementTypeId = i.MeasurementTypeId
+join IngredientType it on it.IngredientTypeId = i.IngredientTypeId
+left join Brand b on b.BrandId = i.BrandId
+left join Weight w on w.WeightId = i.WeightId

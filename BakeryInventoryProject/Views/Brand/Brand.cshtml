@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewBag.Title = "Brand";
+}
+
+<h2>All brand names in your inventory</h2>
+
+<br />
+<br />
+
+<table>
+    <tr>
+        <th>Brand Id</th>
+        <th>Brand Name</th>
+    </tr>
+    @foreach(var b in ViewBag.AllBrandNames) {
+        <tr>
+            <td>@b.BrandId</td>
+            <td>@b.Name</td>
+        </tr>
+    }
+</table>

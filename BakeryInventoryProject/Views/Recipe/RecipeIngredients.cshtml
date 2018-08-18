@@ -1,0 +1,105 @@
+﻿@{
+    var RecipeIdInput = @ViewBag.RecipeInfo.RecipeId;
+}
+@{
+    ViewBag.Title = "RecipeIngredients";
+}
+
+<h2>Recipe Ingredients</h2>
+
+<br />
+<h4>@ViewBag.RecipeDetails.RecipeName</h4>
+<h4>Serves @ViewBag.RecipeDetails.Yield</h4>
+<br />
+<form action="UpdateRecipeYield/@RecipeIdInput" method="post">
+    <input type="radio" name="RecipeIdInput" value="@RecipeIdInput" checked /> @ViewBag.RecipeInfo.RecipeName
+    <h6>ENTER A FRACTION OR DECIMAL YIELD MULTIPLIER: </h6>
+    <input type="text" name="YieldMultiplierInput" placeholder="Yield Multiplier..." />
+    <input type="submit" value="Update Yield" />
+</form>
+<br />
+<h4>Ingredients: </h4>
+<br
+<br />
+@*<form action="InsertIngredientForRecipe" method="post">
+        <input type="radio" name="RecipeIdInputIns" value="@RecipeIdInput" checked /> @ViewBag.RecipeInfo.RecipeName
+        <br />
+        <input type="text" name="NameInput" placeholder="Ingredient Name..." />
+        <select name="IngredientTypeIdInput">
+            <option>Select Ingredient Type...</option>
+            @foreach (var it in ViewBag.AllIngredientTypes) {
+                <option id="@it.IngredientTypeId">@it.TypeName</option>
+            }
+        </select>
+        <input type="text" name="MeasurementValueInput" placeholder="Measurement Value..." />
+
+        <select name="MeasurementTypeIdInput">
+            <option>Select Measurement Type...</option>
+            @foreach (var mt in @ViewBag.AllMeasurementTypes) {
+                <option value="@mt.MeasurementTypeId">@mt.Name @mt.MeasurementTypeId</option>
+            }
+        </select>
+
+        <input type="submit" value="ADD INGREDIENT" />
+    </form>
+    <br />
+    <br />*@
+<form action="InsertIngredientForRecipe" method="post">
+    <table>
+        <tr>
+            <th>INSERT INGREDIENT</th>
+            <th>CHOOSE INGREDIENT TYPE</th>
+            <th>INSERT MEASUREMENT VALUE</th>
+            <th>CHOOSE MEASUREMENT TYPE</th>
+        </tr>
+        <tr></tr>
+        <tr>
+            <td>
+                <input type="text" name="NameInput" placeholder="Ingredient Name..." />
+            </td>
+            <td>
+                <select name="IngredientTypeIdInput">
+                    <option>select</option>
+                    @foreach (var it in @ViewBag.AllIngredientTypes) {
+                        <option value="@it.IngredientTypeId">@it.TypeName</option>
+                    }
+                </select>
+            </td>
+            <td>
+                <input type="text" name="MeasurementValueInput" placeholder="Measurement Value..." />
+            </td>
+            <td>
+                <select name="MeasurementTypeIdInput">
+                    <option>select</option>
+                    @foreach (var mt in @ViewBag.AllMeasurementTypes) {
+                        <option value="@mt.MeasurementTypeId">@mt.Name</option>
+                    }
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>ADD INGREDIENT TO RECIPE!</td>
+            <td>
+                <input type="submit" value="INSERT INGREDIENT"
+            </td>
+            <td></td>
+        </tr>
+        <input type="radio" name="RecipeIdInputIns" value="@RecipeIdInput" checked /> @ViewBag.RecipeInfo.RecipeName
+    </table>
+</form>
+<br /><br />
+<table>
+    <tr>
+        <th>INGREDIENT</th>
+        <th>MEASUREMENT</th>
+        <th>INGREDIENT TYPE</th>
+    </tr>
+    @foreach (var ing in @ViewBag.RecIngs) {
+        <tr class="tableRowsCentered">
+            <td>@ing.IngredientName</td>
+            <td>@ing.Measurement</td>
+            <td>@ing.IngredientTypeName</td>
+        </tr>
+    }
+</table>
