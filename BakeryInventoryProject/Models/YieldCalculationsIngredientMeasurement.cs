@@ -23,32 +23,23 @@ namespace BakeryInventoryProject.Models {
          * */
 
 
-        public string[] MultiplyOriginalMeasurementArray(string measurement, decimal multiplier) {
+        public decimal MultiplyOriginalMeasurementToDecimal(string measurement, decimal multiplier) {
             var yield = new YieldCalculations();
             var split = new SplitFraction();
             var parseFractoDec = new ParseFractionToDecimal();
             var parseDectoFrac = new ParseDecimalToFraction();
-            //split measurement
             var splitMeasurement = split.SplitMeasurementValueAndName(measurement);
-            string measurementValue = splitMeasurement[0]; 
-            //split fraction in first part of splitMeasurementValue if needed
-            var splitMeasurementValueFraction = new string[] { }; 
-            if (measurementValue.Contains(' ')) {
-                splitMeasurementValueFraction = split.SplitProperFractionInto2Parts(measurementValue); 
-            }
-            if(!measurementValue.Contains(' ')) {
-                splitMeasurementValueFraction[0] = measurementValue; 
-            }
-            return splitMeasurementValueFraction; 
-
-            ////convert fraction to decimal
-            //var decimalMeasurementValue = parseFractoDec.CalculateFractionToDecimal(splitMeasurementValue[0]);
-            ////adjusted decimal value according to the multiplier
-            //var adjustedMeasurementValueDecimal = UpdateMeasurementBasedOnMultiplier(decimalMeasurementValue, multiplier);
-            ////convert decimal to fraction
-            //var adjustedMeasurementValueFraction = parseDectoFrac.CreateProperFractionFromDecimal(adjustedMeasurementValueDecimal);
-            ////return full fraction string measurement
-            //return adjustedMeasurementValueFraction + " " + splitMeasurementValue[1];
+            string measurementValue = splitMeasurement[0];
+            var decimalValueOfFraction = parseFractoDec.CalculateFractionToDecimal(measurementValue);
+            var updatedDecimalValue = (decimalValueOfFraction * multiplier);
+            var updatedMeasurementBasedOnMultiplier = yield.RoundToNthPlace(updatedDecimalValue, 2); 
+            return updatedMeasurementBasedOnMultiplier; 
+        }
+        public string MultiplyOriginalMeasurementToMeasurementValueString(string measurement, decimal multiplier) {
+            var decToFrac = new ParseDecimalToFraction(); 
+            var decimalValueOfMultipliedMeasurement = MultiplyOriginalMeasurementToDecimal(measurement, multiplier);
+            var decimalToFraction = decToFrac.CreateProperFractionFromDecimal(decimalValueOfMultipliedMeasurement);
+            return decimalToFraction; 
         }
     }
 }

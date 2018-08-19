@@ -32,21 +32,21 @@ namespace BakeryInventoryProjectUnitTests {
         [Test]
         public void SplitProperFraction() {
             var split = new SplitFraction();
-            var actual = split.SplitProperFractionInto2Parts("1 1/2 cups");
+            var actual = split.SplitProperFractionIntoWholeNumberAndFraction("1 1/2 cups");
             var execpted = new string[] { "1", "1/2" };
             Assert.AreEqual(execpted, actual); 
         }
         [Test]
         public void SplitProperFraction2() {
             var split = new SplitFraction();
-            var actual = split.SplitProperFractionInto2Parts("3 1/3 cups");
+            var actual = split.SplitProperFractionIntoWholeNumberAndFraction("3 1/3 cups");
             var expected = new string[] { "3", "1/3" };
             Assert.AreEqual(expected, actual); 
         }
         [Test]
         public void SplitProperFraction3() {
             var split = new SplitFraction();
-            var actual = split.SplitProperFractionInto2Parts("3/4 teaspoons");
+            var actual = split.SplitProperFractionIntoWholeNumberAndFraction("3/4 teaspoons");
             var expected = new string[] { "3/4" };
             Assert.AreEqual(expected, actual); 
         }

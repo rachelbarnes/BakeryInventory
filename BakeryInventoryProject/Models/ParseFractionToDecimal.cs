@@ -24,17 +24,27 @@ namespace BakeryInventoryProject.Models {
             var round = new YieldCalculations();
             var split = new SplitFraction();
             var fractionSplit = new string[] { };
-            if (fraction.Contains(' ')) {
-                var properFraction = split.SplitProperFractionInto2Parts(fraction);
-                fractionSplit = SplitFraction(properFraction[1]);
-            } else {
-                fractionSplit = SplitFraction(fraction);
+            var properFraction = new string[] { };
+            var wholeNumber = 0m;
+            var numerator = 0m;
+            var denominator = 0m;
+            if (!fraction.Contains('/')) {
+                return System.Convert.ToDecimal(fraction); 
             }
-            var numerator = System.Convert.ToDecimal(fractionSplit[0]);
-            var denominator = System.Convert.ToDecimal(fractionSplit[1]);
-            //var resultbefore =
-            //var result =
-            return round.RoundToNthPlace((numerator / denominator), 2); 
+            if (!fraction.Contains(' ')) {
+                fractionSplit = SplitFraction(fraction);
+                numerator = System.Convert.ToDecimal(fractionSplit[0]);
+                denominator = System.Convert.ToDecimal(fractionSplit[1]);
+            } else if (fraction.Contains(' ')) {
+                properFraction = split.SplitProperFractionIntoWholeNumberAndFraction(fraction);
+                fractionSplit = SplitFraction(properFraction[1]);
+                wholeNumber = System.Convert.ToDecimal(properFraction[0]);
+                numerator = System.Convert.ToDecimal(fractionSplit[0]);
+                denominator = System.Convert.ToDecimal(fractionSplit[1]);
+                var decimalValue = (numerator / denominator) + wholeNumber; 
+                return round.RoundToNthPlace(decimalValue, 2);
+            }
+            return round.RoundToNthPlace((numerator / denominator), 2);
         }
     }
 }

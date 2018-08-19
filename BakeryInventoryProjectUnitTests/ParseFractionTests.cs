@@ -47,6 +47,20 @@ namespace BakeryInventoryProjectUnitTests {
             var expected = 9m;
             Assert.AreEqual(expected, actual);
         }
+        [Test]
+        public void ParseProperFractionToDecimal() {
+            var parse = new ParseFractionToDecimal();
+            var actual = parse.CalculateFractionToDecimal("1 1/2");
+            var expected = 1.5m;
+            Assert.AreEqual(expected, actual);
+        }
+        [Test]
+        public void ParseProperFractionToDecimal2() {
+            var parse = new ParseFractionToDecimal();
+            var actual = parse.CalculateFractionToDecimal("3 4/5");
+            var expected = 3.8m;
+            Assert.AreEqual(expected, actual); 
+        }
 
     }
 }

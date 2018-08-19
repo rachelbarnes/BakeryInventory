@@ -7,7 +7,7 @@ namespace BakeryInventoryProject.Models {
     public class CreateImproperFraction {
         public string[] GetImproperFractionParts(string measurement) {
             var split = new SplitFraction();
-            var properFraction = split.SplitProperFractionInto2Parts(measurement);
+            var properFraction = split.SplitProperFractionIntoWholeNumberAndFraction(measurement);
             var smallFraction = new string[] { };
             var wholeNumber = "";
             var numerator = "";

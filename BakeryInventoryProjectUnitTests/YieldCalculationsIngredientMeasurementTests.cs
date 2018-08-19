@@ -23,26 +23,41 @@ namespace BakeryInventoryProjectUnitTests {
             Assert.AreEqual(expected, actual);
         }
         [Test]
-        public void AdjustMeasurement() {
+        public void AdjustMeasurementUpdateToDecimal() {
             var update = new YieldCalculationsIngredientMeasurement();
-            var actual = update.MultiplyOriginalMeasurementArray("1 1/2 cups", .5m);
-            var expected = new string[] { "1", "1/2" };
+            var actual = update.MultiplyOriginalMeasurementToDecimal("1 1/2 cups", .5m);
+            var expected = .75m;
+            Assert.AreEqual(expected, actual);
+        }
+        [Test]
+        public void AdjustMeasurementUpdateToDecimal2() {
+            var update = new YieldCalculationsIngredientMeasurement();
+            var actual = update.MultiplyOriginalMeasurementToDecimal("2/3 cups", .5m);
+            var expected = .33m;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [Test]
+        public void AdjustMeasurement() {
+            var adjust = new YieldCalculationsIngredientMeasurement();
+            var actual = adjust.MultiplyOriginalMeasurementToMeasurementValueString("1 1/2 cups", .5m);
+            var expected = "3/4";
+            Assert.AreEqual(expected, actual);
+        }
+        [Test]
+        public void AdjustMeasurement1() {
+            var adjust = new YieldCalculationsIngredientMeasurement();
+            var actual = adjust.MultiplyOriginalMeasurementToMeasurementValueString("3 teaspoons", .75m);
+            var expected = "2 1/4";
             Assert.AreEqual(expected, actual);
         }
         [Test]
         public void AdjustMeasurement2() {
-            var update = new YieldCalculationsIngredientMeasurement();
-            var actual = update.MultiplyOriginalMeasurementArray("2/3 cups", .5m);
-            var expected = new string[] { "2/3" }; 
+            var adjust = new YieldCalculationsIngredientMeasurement();
+            var actual = adjust.MultiplyOriginalMeasurementToMeasurementValueString("2 tablespoons", .5m);
+            var expected = "1";
+            Assert.AreEqual(expected, actual);
         }
-
-        //[Test]
-        //public void AdjustMeasurement() {
-        //    var adjust = new YieldCalculationsIngredientMeasurement();
-        //    var actual = adjust.MultiplyOriginalMeasurementArray("1 1/2 cups", .75m);
-        //    var expected = "3/4 cups";
-        //    Assert.AreEqual(expected, actual);
-        //}
         //[Test]
         //public void AdjustMeasurement1() {
         //    var adjust = new YieldCalculationsIngredientMeasurement();

@@ -1,0 +1,43 @@
+﻿Spit Fraction Flow: 
+
+1. Get measurement as parameter
+2. Split measurement from measurement type
+3. Split the measurement fraction (if applicable) into a whole number, numerator and denominator (easiest to split the numerator and denominator first, then split the whole number and the numerator)
+
+
+            var wholeNumber = ""; var fraction = "";
+            var fractionArray = new string[] { };
+            var space = 0;
+            //if the measurement doesn't contain a space, then return the measurement as is (since we're returning the proper fraction... we want the simpelf raction if that's what we have)
+            if (!measurement.Contains(' ')) {
+                var unchangedArray = new string[] { measurement };
+                return unchangedArray;
+            }
+            //if the measurement does have a space, then split the whole number from the fraction
+            //else if (measurement.Contains(' ')) {
+            //get the space
+            for (int i = 0; i < measurement.Length; i++) {
+                if (measurement[i] == ' ') {
+                    space = i;
+                    break;
+                }
+            }
+            //splitMeasurementFraction = measurement);
+            wholeNumber = measurement.Substring(0, space);
+            fraction = measurement.Substring(space + 1);
+            fractionArray = new string[] { wholeNumber, fraction };
+            if (!splitMeasurementFraction[0].Contains(' ')) {
+                var unchangedArray = new string[] { splitMeasurementFraction[0] };
+                return unchangedArray;
+            }
+            for (int i = 0; i < splitMeasurementFraction[0].Length; i++) {
+                if (splitMeasurementFraction[0][i] == ' ') {
+                    space = i;
+                    break;
+                }
+            }
+            wholeNumber = splitMeasurementFraction[0].Substring(0, space);
+            fraction = splitMeasurementFraction[0].Substring(space + 1);
+            fractionArray = new string[] { wholeNumber, fraction };
+            return fractionArray;
+
